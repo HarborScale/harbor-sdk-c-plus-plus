@@ -1,148 +1,135 @@
 
-# TelemetryHarborSDK for C++ (Arduino)
+# TelemetryHarborSDK for Arduino (ESP32 / ESP8266)
 
-<!-- Arduino -->
 ![Arduino Library](https://img.shields.io/badge/Arduino-Library-00979D.svg)
-![Platform](https://img.shields.io/badge/platform-ESP32-orange.svg)
+![Platform](https://img.shields.io/badge/platform-ESP32%20|%20ESP8266-orange.svg)
 ![License](https://img.shields.io/github/license/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
 
-<!-- GitHub -->
-![Last Commit](https://img.shields.io/github/last-commit/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
-![Issues](https://img.shields.io/github/issues/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
-![Pull Requests](https://img.shields.io/github/issues-pr/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
-![Repo Size](https://img.shields.io/github/repo-size/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
-![Contributors](https://img.shields.io/github/contributors/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
-
-<!-- Fun / Community -->
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 ![Stars](https://img.shields.io/github/stars/TelemetryHarbor/harbor-sdk-c-plus-plus.svg?style=social)
-![Forks](https://img.shields.io/github/forks/TelemetryHarbor/harbor-sdk-c-plus-plus.svg?style=social)
 
+## The Easiest Cloud Dashboard for ESP32 & ESP8266 🚀
 
-A C++ client SDK for sending telemetry data to the **Telemetry Harbor** service, designed for Arduino-based microcontrollers like the ESP32 and ESP8266.
+**Stop coding HTML web servers for your ESP32.**
 
-This library simplifies sending sensor data by handling HTTP communication, JSON serialization, and robust error handling with automatic retries.
+The **Telemetry Harbor SDK** lets you send sensor data from your Arduino/ESP devices to a fully managed Grafana dashboard in **3 lines of code**.
 
-For Arduino Update Logs at https://downloads.arduino.cc/libraries/logs/github.com/TelemetryHarbor/harbor-sdk-c-plus-plus/
+* **⚡ Instant Visualization:** Data appears on your hosted Grafana dashboard in milliseconds.
+* **💾 Infinite Storage:** We handle the time-series database. No SD cards required.
+* **🔌 Zero Config:** No Docker, no port forwarding, no complex certificate management.
 
-For full details and advanced usage, please see our official documentation at [docs.telemetryharbor.com](https://docs.telemetryharbor.com).
+[**👉 Get your Free API Key at TelemetryHarbor.com**](https://www.telemetryharbor.com)
 
-***
-
-## Features
-
-* ✅ **Simple Interface**: Easily send data with `send()` and `sendBatch()` methods.
-* 📦 **JSON Handling**: Automatically serializes data structs into the required JSON format.
-* ⚙️ **Robust Retries**: Implements exponential backoff to automatically retry sending data on network or server errors.
-* 📡 **ESP32 & ESP8266 Ready**: Built for the most popular Wi-Fi enabled microcontrollers in the Arduino ecosystem.
-* 🔌 **Extensible**: Easily add new data structures for different telemetry types.
-
-***
+---
 
 ## Installation
 
-1.  **Install from Library Manager**:
-    * Open the Arduino IDE.
-    * Go to `Sketch` > `Include Library` > `Manage Libraries...`.
-    * Search for "**TelemetryHarborSDK**" and click "Install".
-    * The IDE will prompt you to also install its dependency, "**ArduinoJson**". Click "Install all".
+1.  Open the Arduino IDE.
+2.  Go to `Sketch` > `Include Library` > `Manage Libraries...`.
+3.  Search for **"TelemetryHarborSDK"**.
+4.  Click **Install**.
 
-2.  **Manual Installation**:
-    * Download the latest release from the repository as a ZIP file.
-    * In the Arduino IDE, go to `Sketch` > `Include Library` > `Add .ZIP Library...` and select the downloaded file.
-    * Install the **ArduinoJson** library separately from the Library Manager.
+---
 
-***
+## 60-Second Quickstart
 
-## Quickstart Guide
-
-Here is a basic example of how to use the library to send a single sensor reading.
-
-### Example Sketch
+Here is how to send your first temperature reading.
 
 ```cpp
 #include <WiFi.h>
 #include "HarborClient.h"
 
-const char* ssid = "Harbor-WIFI";
-const char* password = "";
-
-// Replace with your actual endpoint and API key
-const char* harborEndpoint = "ENDPOINT";
-const char* harborApiKey = "API_KEY";
+// 1. Setup your Wifi & Harbor Credentials
+const char* ssid = "YOUR_WIFI_SSID";
+const char* password = "YOUR_WIFI_PASS";
+const char* harborEndpoint = "[https://telemetryharbor.com/api/v2/ingest/YOUR_HARBOR_ID](https://telemetryharbor.com/api/v2/ingest/YOUR_HARBOR_ID)";
+const char* harborApiKey = "sk_live_...";
 
 HarborClient harbor(harborEndpoint, harborApiKey);
 
 void setup() {
   Serial.begin(115200);
-  delay(1000);
-
-  Serial.println("Connecting to WiFi...");
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println(" Connected!");
+  while (WiFi.status() != WL_CONNECTED) delay(500);
 }
 
 void loop() {
+  // 2. Define your data
   GeneralReading reading;
-  reading.ship_id = "esp32-freighter-01";
-  reading.cargo_id = "temperature-hold-3";
-  reading.value = 25.5 + random(-2, 2); // Simulated sensor reading
-  reading.time = "2025-06-24T19:24:00.948Z";
+  reading.ship_id = "esp32-sensor-01"; // Your Device Name
+  reading.cargo_id = "temperature";    // Your Metric Name
+  reading.value = 24.5;                // Your Sensor Value
+  // Note: 'time' is optional. If omitted, the server uses reception time.
 
-  Serial.println("Sending a reading...");
-  int statusCode = harbor.send(reading);
-
-  if (statusCode >= 200 && statusCode < 300) {
-    Serial.printf("✅ Successfully sent data (Status: %d)\n", statusCode);
-  } else {
-    Serial.printf("❌ Failed to send data (Status: %d)\n", statusCode);
+  // 3. Send it
+  int status = harbor.send(reading);
+  
+  if (status == 200) {
+    Serial.println("Data sent! Check your Grafana dashboard.");
   }
 
-  delay(30000); // Wait 30 seconds
+  delay(10000); // Send every 10 seconds
 }
 ````
 
 -----
 
-## API Reference
+## Advanced Usage
 
-### `TelemetryHarborClient(const char* endpoint, const char* api_key)`
+### Sending Batches (Save Battery & Data)
 
-The constructor for the client.
-
-  * `endpoint`: The URL of your Telemetry Harbor ingestion endpoint.
-  * `api_key`: Your unique API key for authentication.
-
-### `int send(const GeneralReading& reading)`
-
-Sends a single telemetry reading.
-
-  * `reading`: A `GeneralReading` struct containing the data.
-  * **Returns**: The final HTTP status code after all retries.
-
-### `int sendBatch(const GeneralReading readings[], int count)`
-
-Sends an array of readings in a single HTTP request.
-
-  * `readings`: A C-style array of `GeneralReading` structs.
-  * `count`: The number of elements in the array.
-  * **Returns**: The final HTTP status code.
-
-### `GeneralReading` Struct
-
-The primary data structure for telemetry.
+Sending one HTTP request per reading is inefficient. Use `sendBatch` to send multiple metrics at once.
 
 ```cpp
-struct GeneralReading {
-    String ship_id;
-    String cargo_id;
-    float value;
-    String time; // Optional, ISO8601 format (e.g., "2025-07-17T10:08:55Z")
-};
+void loop() {
+  GeneralReading readings[2];
+
+  // Temperature
+  readings[0].ship_id = "esp32-sensor-01";
+  readings[0].cargo_id = "temperature";
+  readings[0].value = 24.5;
+
+  // Humidity
+  readings[1].ship_id = "esp32-sensor-01";
+  readings[1].cargo_id = "humidity";
+  readings[1].value = 60.2;
+
+  // Send both in one request
+  harbor.sendBatch(readings, 2);
+  
+  delay(60000); // Sleep for 1 minute
+}
 ```
 
+### Logging GPS Data
+
+Telemetry Harbor automatically handles GPS data for map visualizations. Simply send `latitude` and `longitude` as separate metrics.
+
+```cpp
+  readings[0].cargo_id = "latitude";
+  readings[0].value = 40.7128;
+  
+  readings[1].cargo_id = "longitude";
+  readings[1].value = -74.0060;
+  
+  harbor.sendBatch(readings, 2);
+```
+
+-----
+
+## Features
+
+  * ✅ **JSON Handling**: Automatically handles serialization (uses ArduinoJson internally).
+  * ✅ **Auto-Retry**: Built-in exponential backoff for when Wi-Fi is flaky.
+  * ✅ **Efficient**: Minimal memory footprint, optimized for embedded devices.
+  * ✅ **Secure**: Full HTTPS support.
+
+-----
+
+## Need Help?
+
+  * 📚 **Documentation:** [docs.telemetryharbor.com](https://docs.telemetryharbor.com)
+  * 💬 **Support:** [support@telemetryharbor.com](mailto:support@telemetryharbor.com)
+  * 🐛 **Issues:** [GitHub Issues](https://www.google.com/search?q=https://github.com/TelemetryHarbor/harbor-sdk-c-plus-plus/issues)
+
+<!-- end list -->
 
