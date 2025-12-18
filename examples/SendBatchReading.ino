@@ -1,4 +1,4 @@
-// TelemetryHarborSDK/examples/SendBatchReading.ino
+// harborscaleSDK/examples/SendBatchReading.ino
 #include <WiFi.h>
 #include "HarborClient.h"
 

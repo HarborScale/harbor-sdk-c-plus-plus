@@ -1,4 +1,4 @@
-// TelemetryHarborSDK/src/HarborClient.cpp
+// harborscaleSDK/src/HarborClient.cpp
 
 #include "HarborClient.h"
 

@@ -1,4 +1,4 @@
-// TelemetryHarborSDK/examples/SendSingleReading/SendSingleReading.ino
+// harborscaleSDK/examples/SendSingleReading/SendSingleReading.ino
 
 #include <WiFi.h>
 #include "HarborClient.h"

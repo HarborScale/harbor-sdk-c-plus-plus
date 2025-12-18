@@ -1,4 +1,4 @@
-// TelemetryHarborSDK/src/HarborClient.h
+// harborscaleSDK/src/HarborClient.h
 
 #ifndef HarborClient_h
 #define HarborClient_h
@@ -15,7 +15,7 @@
   #include <HTTPClient.h>
   #include <WiFiClientSecure.h>
 #else
-  #error "TelemetryHarborSDK only supports ESP8266 and ESP32 platforms."
+  #error "harborscaleSDK only supports ESP8266 and ESP32 platforms."
 #endif
 // Equivalent to your Pydantic 'GeneralReading' model
 struct GeneralReading

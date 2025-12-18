@@ -11,7 +11,7 @@
 
 **Stop coding HTML web servers for your ESP32.**
 
-The **Telemetry Harbor SDK** lets you send sensor data from your Arduino/ESP devices to a fully managed Grafana dashboard in **3 lines of code**.
+The **Harbor Scale SDK** lets you send sensor data from your Arduino/ESP devices to a fully managed Grafana dashboard in **3 lines of code**.
 
 * **⚡ Instant Visualization:** Data appears on your hosted Grafana dashboard in milliseconds.
 * **💾 Infinite Storage:** We handle the time-series database. No SD cards required.
@@ -102,7 +102,7 @@ void loop() {
 
 ### Logging GPS Data
 
-Telemetry Harbor automatically handles GPS data for map visualizations. Simply send `latitude` and `longitude` as separate metrics.
+Harbor Scale automatically handles GPS data for map visualizations. Simply send `latitude` and `longitude` as separate metrics.
 
 ```cpp
   readings[0].cargo_id = "latitude";
