@@ -1,4 +1,4 @@
-# TelemetryHarborSDK/keywords.txt
+# HarborScaleSDK/keywords.txt
 
 HarborClient	KEYWORD1
 GeneralReading	TYPE
