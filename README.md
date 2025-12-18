@@ -1,11 +1,11 @@
 
-# TelemetryHarborSDK for Arduino (ESP32 / ESP8266)
+# HarborScaleSDK for Arduino (ESP32 / ESP8266)
 
 ![Arduino Library](https://img.shields.io/badge/Arduino-Library-00979D.svg)
 ![Platform](https://img.shields.io/badge/platform-ESP32%20|%20ESP8266-orange.svg)
-![License](https://img.shields.io/github/license/TelemetryHarbor/harbor-sdk-c-plus-plus.svg)
+![License](https://img.shields.io/github/license/harborscale/harbor-sdk-c-plus-plus.svg)
 
-![Stars](https://img.shields.io/github/stars/TelemetryHarbor/harbor-sdk-c-plus-plus.svg?style=social)
+![Stars](https://img.shields.io/github/stars/harborscale/harbor-sdk-c-plus-plus.svg?style=social)
 
 ## The Easiest Cloud Dashboard for ESP32 & ESP8266 🚀
 
@@ -17,7 +17,7 @@ The **Telemetry Harbor SDK** lets you send sensor data from your Arduino/ESP dev
 * **💾 Infinite Storage:** We handle the time-series database. No SD cards required.
 * **🔌 Zero Config:** No Docker, no port forwarding, no complex certificate management.
 
-[**👉 Get your Free API Key at TelemetryHarbor.com**](https://www.telemetryharbor.com)
+[**👉 Get your Free API Key at HarborScale.com**](https://www.HarborScale.com)
 
 ---
 
@@ -25,7 +25,7 @@ The **Telemetry Harbor SDK** lets you send sensor data from your Arduino/ESP dev
 
 1.  Open the Arduino IDE.
 2.  Go to `Sketch` > `Include Library` > `Manage Libraries...`.
-3.  Search for **"TelemetryHarborSDK"**.
+3.  Search for **"HarborScaleSDK"**.
 4.  Click **Install**.
 
 ---
@@ -41,7 +41,7 @@ Here is how to send your first temperature reading.
 // 1. Setup your Wifi & Harbor Credentials
 const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASS";
-const char* harborEndpoint = "[https://telemetryharbor.com/api/v2/ingest/YOUR_HARBOR_ID](https://telemetryharbor.com/api/v2/ingest/YOUR_HARBOR_ID)";
+const char* harborEndpoint = "https://harobrscale.com/api/v2/ingest/YOUR_HARBOR_ID";
 const char* harborApiKey = "sk_live_...";
 
 HarborClient harbor(harborEndpoint, harborApiKey);
@@ -127,9 +127,8 @@ Telemetry Harbor automatically handles GPS data for map visualizations. Simply s
 
 ## Need Help?
 
-  * 📚 **Documentation:** [docs.telemetryharbor.com](https://docs.telemetryharbor.com)
-  * 💬 **Support:** [support@telemetryharbor.com](mailto:support@telemetryharbor.com)
-  * 🐛 **Issues:** [GitHub Issues](https://www.google.com/search?q=https://github.com/TelemetryHarbor/harbor-sdk-c-plus-plus/issues)
+  * 📚 **Documentation:** [docs.harborscale.com](https://docs.harborscale.com)
+  * 💬 **Support:** [support@harborscale.com](mailto:support@harborscale.com)
 
 <!-- end list -->
 
